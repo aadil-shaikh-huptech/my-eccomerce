@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import Users from '../models/UserModel.js';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 const loginController = async (req, res) => {
     const { email, password } = req.body;
@@ -9,15 +9,14 @@ const loginController = async (req, res) => {
         if (!user || !await bcrypt.compare(password, user.password)) {
             return res.status(401).json({ msg: 'Invalid credentials' });
         }
-        const role = user.role
+        const role = user.role;
         const token = jwt.sign({ userId: user._id, role: role }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        res.cookie('token', token);
+        res.cookie('token', token, { sameSite: 'None', secure: true, httpOnly: true });
         res.status(200).json({ token, role, user });
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
     }
 };
-
 
 const signUpController = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -27,7 +26,7 @@ const signUpController = async (req, res) => {
             return res.status(400).json({ msg: 'User already exists' });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        
+
         const newUser = new Users({
             firstName,
             lastName,
@@ -38,17 +37,14 @@ const signUpController = async (req, res) => {
         await newUser.save();
 
         const token = jwt.sign({ userId: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        res.cookie('token', token,);
+        res.cookie('token', token, { sameSite: 'None', secure: true, httpOnly: true });
         res.status(200).json({ token, role: newUser.role, newUser });
 
     } catch (err) {
-
         console.error('Error signing up:', err);
         res.status(500).json({ msg: 'Server error' });
     }
 };
-
-
 
 const checkAuthController = (req, res) => {
     const token = req.cookies.token;
@@ -64,11 +60,9 @@ const checkAuthController = (req, res) => {
     });
 };
 
-
 const logoutController = (req, res) => {
     res.clearCookie('token');
-    res.status(200).json({ message: " Logout successfully" })
+    res.status(200).json({ message: "Logout successfully" });
 };
-
 
 export { loginController, logoutController, checkAuthController, signUpController };
