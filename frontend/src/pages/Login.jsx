@@ -11,9 +11,11 @@ const Login = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [userDetails, setUserDetails] = useState({});
+    const [loading, setLoading] = useState(true);
     const [heading, setHeading] = useState("")
     const navigate = useNavigate();
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
+
 
 
     useEffect(() => {
@@ -31,6 +33,13 @@ const Login = () => {
         };
         verifyAuth();
     }, [navigate]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [])
 
     const handleModalClose = () => {
         setModalIsOpen(false);
@@ -143,28 +152,32 @@ const Login = () => {
 
     return (
         <div className='login-container'>
-            <div className="login-content">
-                <div className="login-heading">
-                    <h1>Login</h1>
+            {loading ? (
+                <div className='login-loader'></div>
+            ) : (
+                <div className="login-content">
+                    <div className="login-heading">
+                        <h1>Login</h1>
+                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="login-inputs">
+                            <div>
+                                <label htmlFor="Email">Email</label><br />
+                                <input type="email" id="Email" name="email" value={credentials.email} onChange={handleChange} required />
+                            </div>
+                            <div>
+                                <label htmlFor="Password">Password</label> <br />
+                                <input type="password" id="Password" name="password" value={credentials.password} onChange={handleChange} required />
+                            </div>
+                            <a onClick={() => navigate("/login")}>Recover Password</a>
+                        </div>
+                        <div className="login-buttons">
+                            <button className='login-signIn-button' type='submit'>SIGN IN</button>
+                            <a onClick={() => navigate("/register")}>Create account</a>
+                        </div>
+                    </form>
                 </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="login-inputs">
-                        <div>
-                            <label htmlFor="Email">Email</label><br />
-                            <input type="email" id="Email" name="email" value={credentials.email} onChange={handleChange} required />
-                        </div>
-                        <div>
-                            <label htmlFor="Password">Password</label> <br />
-                            <input type="password" id="Password" name="password" value={credentials.password} onChange={handleChange} required />
-                        </div>
-                        <a onClick={() => navigate("/login")}>Recover Password</a>
-                    </div>
-                    <div className="login-buttons">
-                        <button className='login-signIn-button' type='submit'>SIGN IN</button>
-                        <a onClick={() => navigate("/register")}>Create account</a>
-                    </div>
-                </form>
-            </div>
+            )}
             <div id="overlay"></div>
             {modalIsOpen && (
                 <div className="modal-container">
@@ -183,8 +196,6 @@ const Login = () => {
                     </div>
                 </div>
             )}
-
-
         </div>
     );
 };

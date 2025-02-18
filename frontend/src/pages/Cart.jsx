@@ -8,6 +8,7 @@ import '../styles/Cart.scss';
 
 const Cart = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const [cartItems, setCartItems] = useState([]);
     const userID = localStorage.getItem("userID") || "guest"
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
@@ -38,6 +39,14 @@ const Cart = () => {
         fetchCartProducts();
         window.scrollTo(0, 0);
     }, [userID]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [])
+
 
     const handleQuantityChange = async (id, newQuantity) => {
         if (newQuantity < 1) return handleRemoveItem(id);
@@ -91,62 +100,67 @@ const Cart = () => {
         }
     }
 
-    if (cartItems.length === 0) {
+    if (cartItems.length === 0 && !loading) {
         return <EmptyShoppingCart />;
     }
 
     return (
         <div className="cart-container">
-            <div className="cart-grid">
-                <div className="cart-details">
-                    <div className="cart-form">
-                        <div className="cart-table-header">
-                            <div className="cart-table-row">
-                                <div className="cart-table-cell--product">Product</div>
-                                <div className="cart-table-cell--price">Price</div>
-                                <div className="cart-table-cell--quantity">Quantity</div>
-                                <div className="cart-table-cell--total">Total</div>
+            {loading ? (
+                <div className='login-loader'></div>
+            ) : (
+                <div className="cart-grid">
+                    <div className="cart-details">
+                        <div className="cart-form">
+                            <div className="cart-table-header">
+                                <div className="cart-table-row">
+                                    <div className="cart-table-cell--product">Product</div>
+                                    <div className="cart-table-cell--price">Price</div>
+                                    <div className="cart-table-cell--quantity">Quantity</div>
+                                    <div className="cart-table-cell--total">Total</div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="cart-table-body">
-                            {cartItems.map(item => {
-                                const total = item.price * item.quantity;
-                                return (
-                                    <div className="cart-table-row" key={item._id}>
-                                        <div className="cart-table-cell--product">
-                                            <div className="cart-product">
-                                                <img src={item.thumbnail} alt="/loading" />
-                                                <div className="cart-product__desc">
-                                                    <span>{item.title}</span>
-                                                    <div className="cart-product__selling-plan-name">Delivery every 30 Days</div>
+                            <div className="cart-table-body">
+                                {cartItems.map(item => {
+                                    const total = item.price * item.quantity;
+                                    return (
+                                        <div className="cart-table-row" key={item._id}>
+                                            <div className="cart-table-cell--product">
+                                                <div className="cart-product">
+                                                    <img src={item.thumbnail} alt="/loading" />
+                                                    <div className="cart-product__desc">
+                                                        <span>{item.title}</span>
+                                                        <div className="cart-product__selling-plan-name">Delivery every 30 Days</div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="cart-table-cell--price">
-                                            <span>${item.price}</span>
-                                        </div>
-                                        <div className="cart-table-cell--quantity">
-                                            <div className="counter">
-                                                <button className="inputCounter__btn inputCounter__btn--down" type="button" aria-label="Decrease" onClick={() => handleQuantityChange(item._id, item.quantity - 1)}> <span>-</span> </button>
-                                                <input type="text" className="inputCounter" value={item.quantity} readOnly />
-                                                <button className="inputCounter__btn inputCounter__btn--up" type="button" aria-label="Increase" onClick={() => handleQuantityChange(item._id, item.quantity + 1)}> <span>+</span> </button>
+                                            <div className="cart-table-cell--price">
+                                                <span>${item.price}</span>
                                             </div>
-                                            <span className='remove-item' onClick={() => handleRemoveItem(item._id)}>Remove</span>
+                                            <div className="cart-table-cell--quantity">
+                                                <div className="counter">
+                                                    <button className="inputCounter__btn inputCounter__btn--down" type="button" aria-label="Decrease" onClick={() => handleQuantityChange(item._id, item.quantity - 1)}> <span>-</span> </button>
+                                                    <input type="text" className="inputCounter" value={item.quantity} readOnly />
+                                                    <button className="inputCounter__btn inputCounter__btn--up" type="button" aria-label="Increase" onClick={() => handleQuantityChange(item._id, item.quantity + 1)}> <span>+</span> </button>
+                                                </div>
+                                                <span className='remove-item' onClick={() => handleRemoveItem(item._id)}>Remove</span>
+                                            </div>
+                                            <div className="cart-table-cell--total">${total.toFixed(2)}</div>
                                         </div>
-                                        <div className="cart-table-cell--total">${total.toFixed(2)}</div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="cart-summary">
+                        <div className="buttons-container">
+                            <button className="checkout-button" onClick={() => handleCheckOut()}>SAFE CHECKOUT</button>
+                            <button className="continue-shopping-button" onClick={() => navigate(`/collections/all`)}>CONTINUE SHOPPING</button>
                         </div>
                     </div>
                 </div>
-                <div className="cart-summary">
-                    <div className="buttons-container">
-                        <button className="checkout-button" onClick={() => handleCheckOut()}>SAFE CHECKOUT</button>
-                        <button className="continue-shopping-button" onClick={() => navigate(`/collections/all`)}>CONTINUE SHOPPING</button>
-                    </div>
-                </div>
-            </div>
+            )}
+
         </div >
     );
 }

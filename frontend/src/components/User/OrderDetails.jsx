@@ -10,8 +10,10 @@ import 'jspdf-autotable';
 const OrderDetails = () => {
     const [orders, setOrders] = useState([]);
     const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const userId = localStorage.getItem("userID");
+
 
     useEffect(() => {
         const fetchUserOrders = async () => {
@@ -33,7 +35,15 @@ const OrderDetails = () => {
         fetchUserOrders();
     }, [userId]);
 
-    const downloadOrderAsPDF = (order,user) => {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [])
+
+
+    const downloadOrderAsPDF = (order, user) => {
         const doc = new jsPDF();
 
         doc.setFontSize(18);
@@ -70,9 +80,13 @@ const OrderDetails = () => {
     };
 
     return (
+
+
         <div className="order-details-container">
             <h1>Order Details</h1>
-            {orders.length === 0 ? (
+            {loading ? (
+                <div className="order-loader"></div>
+            ) : orders.length === 0 ? (
                 <div>
                     <img src={noOrders} alt="" />
                     <p className="no-orders-message">No orders found for the user.</p>
@@ -111,7 +125,7 @@ const OrderDetails = () => {
                                             <>
                                                 <td rowSpan={order.products.length} className="user-orders-table-cell user-orders-table-actions">${order.totalPrice}</td>
                                                 <td rowSpan={order.products.length} className="user-orders-table-cell user-orders-table-actions">
-                                                    <button className='downloadOrder' onClick={() => downloadOrderAsPDF(order,user)}>Download PDF</button>
+                                                    <button className='downloadOrder' onClick={() => downloadOrderAsPDF(order, user)}>Download PDF</button>
                                                 </td>
                                             </>
                                         )}

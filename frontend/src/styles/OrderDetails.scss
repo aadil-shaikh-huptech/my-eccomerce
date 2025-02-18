@@ -4,7 +4,7 @@
     font-family: variables.$montserrat-font;
     font-size: 1em;
     color: #000;
-    min-height: 40vh;
+    min-height: 60vh;
     background-color: rgba(35, 35, 35, 0.05);
 
     h1 {
@@ -20,6 +20,7 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 4vh;
         margin-bottom: 2vh;
     }
 
@@ -29,7 +30,7 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 1vh;
+        margin-top: 4vh;
         border: none;
         cursor: pointer;
         position: variables.$relative-position;
@@ -63,6 +64,7 @@
     }
 
     .no-orders-message {
+        margin-top: 4vh;
         color: #873a8d;
         text-align: center;
     }
@@ -110,6 +112,22 @@
     &:hover {
         background-color: #662a6a;
     }
+}
+
+.order-loader {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: variables.$purple-color;
+    width: 3px;
+    aspect-ratio: 1;
+    height: 1vh;
+    border-radius: 50%;
+    box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
+    animation: l21 .5s infinite alternate linear;
+    margin: 20vh 0;
+    left: 47vw;
 }
 
 @media (max-width: 1024px) {

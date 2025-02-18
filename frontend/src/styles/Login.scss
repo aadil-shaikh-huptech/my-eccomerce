@@ -226,7 +226,8 @@
     color: #555;
 }
 
-.modal-content .user-logout,.see-orders {
+.modal-content .user-logout,
+.see-orders {
     margin-top: 1vh;
     margin-right: 0.5vw;
     font-family: variables.$montserrat-font;
@@ -251,4 +252,19 @@
     background-color: rgba(0, 0, 0, 0.6);
     display: none;
     z-index: 1000;
+}
+
+.login-loader {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: variables.$purple-color;
+    width: 3px;
+    aspect-ratio: 1;
+    height: 1vh;
+    border-radius: 50%;
+    box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
+    animation: l21 .5s infinite alternate linear;
+    margin: 33vh 0;
 }
