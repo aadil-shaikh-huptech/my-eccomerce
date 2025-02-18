@@ -103,7 +103,7 @@ const Register = () => {
 
                     <div className="register-buttons">
                         <button className='register-signUp-button' type='submit'>SUBMIT</button>
-                        <a href="/">Cancel</a>
+                        <a onClick={() => navigate("/")}>Cancel</a>
                     </div>
                 </form>
             </div>

@@ -157,11 +157,11 @@ const Login = () => {
                             <label htmlFor="Password">Password</label> <br />
                             <input type="password" id="Password" name="password" value={credentials.password} onChange={handleChange} required />
                         </div>
-                        <a href="">Recover Password</a>
+                        <a onClick={() => navigate("/login")}>Recover Password</a>
                     </div>
                     <div className="login-buttons">
                         <button className='login-signIn-button' type='submit'>SIGN IN</button>
-                        <a href="/register">Create account</a>
+                        <a onClick={() => navigate("/register")}>Create account</a>
                     </div>
                 </form>
             </div>

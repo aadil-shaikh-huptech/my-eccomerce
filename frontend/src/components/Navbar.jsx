@@ -30,7 +30,7 @@ const Navbar = () => {
     <div className='navbar'>
       <div className="container">
         <h2>
-          <a href="/">
+          <a onClick={() => navigate("/")}>
             <img className='navLogo' src={logo} alt="Logo" />
           </a>
         </h2>
@@ -38,10 +38,10 @@ const Navbar = () => {
           <nav>
             <ul>
               <li>
-                <a className='navLink' href="/">Home</a>
+                <a className='navLink' onClick={() => navigate("/")}>Home</a>
               </li>
               <li>
-                <a className='navLink' href="/">About</a>
+                <a className='navLink' onClick={() => navigate("/")}>About</a>
               </li>
               {userRole !== 'admin' && <>
                 <li>
