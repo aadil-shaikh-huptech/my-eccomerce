@@ -1,5 +1,5 @@
 import axios from "axios"
-const  VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
+const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
 
 export const fetchProductsData = async () => {
