@@ -17,7 +17,7 @@ export const fetchProductsData = async () => {
 
 export const fetchOneProduct = async (productId) => {
     try {
-        const response = await fetch(`${import.meta.env.BACKEND_BASEURL}/products/${productId}`);
+        const response = await fetch(`https://my-eccomerce-backend.vercel.app/api/products/${productId}`);
         const data = await response.json();
         return data
     } catch (error) {
@@ -41,10 +41,10 @@ export const addProduct = async (product) => {
         return response.json()
     }
     catch (error) {
-        console.error("Error adding product: ",error)
+        console.error("Error adding product: ", error)
         throw error
     }
-} 
+}
 
 export const updateProduct = async (productId, updatedProduct) => {
     try {
@@ -62,7 +62,7 @@ export const updateProduct = async (productId, updatedProduct) => {
 
     }
     catch (error) {
-        console.error("Error updating product: ",error)
+        console.error("Error updating product: ", error)
         throw error
     }
 }
@@ -77,23 +77,23 @@ export const deleteProduct = async (productId) => {
         }
     }
     catch (error) {
-        console.error("Error deleting product: ",error)
+        console.error("Error deleting product: ", error)
         throw error
     }
 }
 
-export const fetchProductsByCategory  = async(category)=>{
-    try{
+export const fetchProductsByCategory = async (category) => {
+    try {
         const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/products/category/${category}`)
         return response.data
     }
-    catch(error){
-        console.error("Error fetching products by category",error)
+    catch (error) {
+        console.error("Error fetching products by category", error)
         throw error
     }
 }
 
-export const fetchProductCategories = async() =>{
+export const fetchProductCategories = async () => {
     try {
         const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/products/categories/all`)
         return response.data
