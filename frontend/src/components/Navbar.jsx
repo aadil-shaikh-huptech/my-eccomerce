@@ -45,7 +45,7 @@ const Navbar = () => {
               </li>
               {userRole !== 'admin' && <>
                 <li>
-                  <a className='navLink' href="/collections/all?showProducts=true">Shop Now</a>
+                  <a className='navLink' onClick={() => navigate("/collections/all?showProducts=true")}  >Shop Now</a>
                 </li>
                 <div className="down_icon">
                   <svg
