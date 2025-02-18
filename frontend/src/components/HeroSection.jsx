@@ -13,6 +13,8 @@ import { useNavigate } from 'react-router-dom'
 
 
 const HeroSection = () => {
+    console.log(process.env.BACKEND_BASEURL)
+
     const navigate = useNavigate()
     return (
         <div className='hero-section'>

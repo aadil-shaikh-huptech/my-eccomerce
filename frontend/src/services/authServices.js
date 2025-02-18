@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const checkAuth = async () => {
     try {
-        const response = await axios.get("http://localhost:4000/api/auth/check-auth", {
+        const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/auth/check-auth`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export const checkAuth = async () => {
 
 export const fetchAdminDetails = async () => {
     try {
-        const response = await axios.get("http://localhost:4000/api/admin/profile", {
+        const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/admin/profile`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export const fetchAdminDetails = async () => {
 
 export const logout = async () => {
     try {
-        const response = await axios.post("http://localhost:4000/api/auth/logout", {}, {
+        const response = await axios.post(`${import.meta.env.BACKEND_BASEURL}/auth/logout`, {}, {
             withCredentials: true,
         })
         return response
@@ -52,7 +52,7 @@ export const logout = async () => {
 
 export const userSignUp = async (credentials) => {
     try {
-        const response = await axios.post('http://localhost:4000/api/auth/signup', credentials, {
+        const response = await axios.post(`${import.meta.env.BACKEND_BASEURL}/auth/signup`, credentials, {
             headers: {
                 'Content-Type': 'application/json',
             },
