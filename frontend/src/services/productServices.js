@@ -17,7 +17,7 @@ export const fetchProductsData = async () => {
 
 export const fetchOneProduct = async (productId) => {
     try {
-        const response = await fetch(`https://my-eccomerce-backend.vercel.app/api/products/${productId}`);
+        const response = await fetch(`https://my-eccomerce-backend.vercel.app/api/products/${'67a5e7d6cc97f9ac16ee35d7'}`);
         const data = await response.json();
         return data
     } catch (error) {
