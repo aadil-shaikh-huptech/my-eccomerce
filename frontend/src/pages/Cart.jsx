@@ -10,6 +10,8 @@ const Cart = () => {
     const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
     const userID = localStorage.getItem("userID") || "guest"
+    const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
+
     const fetchCartProducts = async () => {
         try {
             let savedProducts;
@@ -21,7 +23,7 @@ const Cart = () => {
             const productDetails = await Promise.all(
                 savedProducts.map(async (item) => {
                     const productId = item.productId || item._id || item.id;
-                    const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/products/${productId}`);
+                    const response = await axios.get(`${VITE_BACKEND_BASEURL}/products/${productId}`);
                     return { ...response.data, quantity: item.quantity };
                 })
             );

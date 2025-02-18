@@ -8,6 +8,7 @@ import '../styles/HomeProduct.scss'
 const HomeProduct = () => {
     const [product, setProduct] = useState(null);
     const userID = localStorage.getItem("userID") || "guest"
+    const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
     const id = "67a5e7d6cc97f9ac16ee35df"
     const quantity = 1
@@ -31,7 +32,7 @@ const HomeProduct = () => {
             const productDetails = await Promise.all(
                 savedProducts.map(async (item) => {
                     const productId = item.productId || item._id || item.id;
-                    const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/products/${productId}`);
+                    const response = await axios.get(`${VITE_BACKEND_BASEURL}/products/${productId}`);
                     return { ...response.data, quantity: item.quantity };
                 })
             );

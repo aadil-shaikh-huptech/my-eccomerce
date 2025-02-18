@@ -1,8 +1,9 @@
 import axios from "axios"
+const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
 export const checkAuth = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/auth/check-auth`, {
+        const response = await axios.get(`${VITE_BACKEND_BASEURL}/auth/check-auth`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -18,7 +19,7 @@ export const checkAuth = async () => {
 
 export const fetchAdminDetails = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/profile`, {
+        const response = await axios.get(`${VITE_BACKEND_BASEURL}/admin/profile`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ export const logout = async () => {
 
 export const userSignUp = async (credentials) => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/auth/signup`, credentials, {
+        const response = await axios.post(`${VITE_BACKEND_BASEURL}/auth/signup`, credentials, {
             headers: {
                 'Content-Type': 'application/json',
             },

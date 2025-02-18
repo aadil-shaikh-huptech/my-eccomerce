@@ -13,6 +13,8 @@ const Login = () => {
     const [userDetails, setUserDetails] = useState({});
     const [heading, setHeading] = useState("")
     const navigate = useNavigate();
+    const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
+
 
     useEffect(() => {
         const verifyAuth = async () => {
@@ -47,7 +49,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/auth/login`, credentials, {
+            const response = await axios.post(`${VITE_BACKEND_BASEURL}/auth/login`, credentials, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
