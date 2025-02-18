@@ -123,7 +123,7 @@ const OrderDetails = () => {
                                         </td>
                                         {index === 0 && (
                                             <>
-                                                <td rowSpan={order.products.length} className="user-orders-table-cell user-orders-table-actions">${order.totalPrice}</td>
+                                                <td rowSpan={order.products.length} className="user-orders-table-cell user-orders-table-actions">${order.totalPrice.toFixed(2)}</td>
                                                 <td rowSpan={order.products.length} className="user-orders-table-cell user-orders-table-actions">
                                                     <button className='downloadOrder' onClick={() => downloadOrderAsPDF(order, user)}>Download PDF</button>
                                                 </td>

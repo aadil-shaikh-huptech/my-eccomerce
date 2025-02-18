@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/ProductList.scss';
 
 const ProductList = ({ products, onEdit, onDelete }) => {

@@ -70,7 +70,7 @@ const CheckoutPage = () => {
 
         try {
             const { data } = await axios.post(`${VITE_BACKEND_BASEURL}/payment/create-payment-intent`, {
-                amount: Math.round(parseFloat(totalPrice * 100)),
+                amount: Math.round(parseFloat((totalPrice - totalPrice * 0.1) * 100)),
                 currency: 'usd',
             });
 
@@ -86,7 +86,7 @@ const CheckoutPage = () => {
                 console.log('[PaymentIntent]', paymentIntent);
                 try {
                     const userId = localStorage.getItem("userID");
-                    await saveOrders(userId, cartItems, totalPrice);
+                    await saveOrders(userId, cartItems, (totalPrice - totalPrice * 0.1));
                     localStorage.removeItem(`cart_${userId}`);
                     await removeCartFromServer(userId);
                     navigate('/orderConfirm');
@@ -149,9 +149,12 @@ const CheckoutPage = () => {
         }
         verifyAuth()
         fetchCartProducts();
-        calculateTotal(cartItems)
         window.scrollTo(0, 0);
     }, []);
+
+    useEffect(() => {
+        calculateTotal(cartItems);
+    }, [cartItems]);
 
 
     const calculateTotal = (cartItems) => {
@@ -267,10 +270,10 @@ const CheckoutPage = () => {
                                             <CardCvcElement id="cardCvc" options={cardStyle} className="input-element" />
                                         </div>
                                         <div className="total-amount">
-                                            <h3>Total: ${(totalPrice)}</h3>
+                                            <h3>Total: ${(totalPrice - totalPrice * 0.1).toFixed(2)}</h3>
                                         </div>
                                         <button className='paynow-button' type="submit" disabled={!stripe}>
-                                            Pay ${(totalPrice)}
+                                            Pay ${(totalPrice - totalPrice * 0.1).toFixed(2)}
                                         </button>
                                     </div>
                                 </div>
