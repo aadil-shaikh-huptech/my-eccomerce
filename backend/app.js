@@ -13,7 +13,10 @@ import authenticate from './middlewares/auth.middleware.js';
 const app = express();
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: [
+        'http://localhost:5173', 
+        'https://my-eccomerce-frontend.vercel.app'
+    ],
     credentials: true,
 };
 
