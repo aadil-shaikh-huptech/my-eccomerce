@@ -22,7 +22,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.7",
     "node-fetch": "^3.3.2",
-    "stripe": "^17.6.0"
+    "stripe": "^17.6.0",
+    "vercel": "^41.1.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
