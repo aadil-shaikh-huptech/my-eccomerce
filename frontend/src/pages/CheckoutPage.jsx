@@ -58,9 +58,9 @@ const CheckoutPage = () => {
         if (!stripe || !elements) {
             return;
         }
- 
+
         try {
-            const { data } = await axios.post(`${import.meta.env.BACKEND_BASEURL}/payment/create-payment-intent`, {
+            const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/payment/create-payment-intent`, {
                 amount: Math.round(parseFloat(totalPrice * 100)),
                 currency: 'usd',
             });
@@ -118,7 +118,7 @@ const CheckoutPage = () => {
             const productDetails = await Promise.all(
                 savedProducts.map(async (item) => {
                     const productId = item.productId || item._id || item.id;
-                    const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/products/${productId}`);
+                    const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/products/${productId}`);
                     return { ...response.data, quantity: item.quantity };
                 })
             );
@@ -129,7 +129,7 @@ const CheckoutPage = () => {
         }
     };
 
-    
+
     useEffect(() => {
         const verifyAuth = async () => {
             try {
@@ -143,7 +143,7 @@ const CheckoutPage = () => {
         calculateTotal(cartItems)
         window.scrollTo(0, 0);
     }, []);
-    
+
 
     const calculateTotal = (cartItems) => {
         const price = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);

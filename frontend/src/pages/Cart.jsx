@@ -21,7 +21,7 @@ const Cart = () => {
             const productDetails = await Promise.all(
                 savedProducts.map(async (item) => {
                     const productId = item.productId || item._id || item.id;
-                    const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/products/${productId}`);
+                    const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/products/${productId}`);
                     return { ...response.data, quantity: item.quantity };
                 })
             );
@@ -37,7 +37,7 @@ const Cart = () => {
         window.scrollTo(0, 0);
     }, [userID]);
 
-    const handleQuantityChange = async(id, newQuantity) => {
+    const handleQuantityChange = async (id, newQuantity) => {
         if (newQuantity < 1) return handleRemoveItem(id);
 
         const updatedProducts = cartItems.map((product) =>
@@ -59,7 +59,7 @@ const Cart = () => {
         }
     };
 
-    const handleRemoveItem = async(id) => {
+    const handleRemoveItem = async (id) => {
         const updatedProducts = cartItems.filter((product) => product._id !== id);
         setCartItems(updatedProducts);
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const updateCartOnServer = async (userId, cartItems) => {
     try {
-        const response = await axios.post(`${import.meta.env.BACKEND_BASEURL}/cart/update`, { userId, cartItems }, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/cart/update`, { userId, cartItems }, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -17,7 +17,7 @@ export const updateCartOnServer = async (userId, cartItems) => {
 
 export const fetchCartFromServer = async (userId) => {
     try {
-        const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/cart/${userId}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/cart/${userId}`);
         return response.data.cartItems || [];
     } catch (error) {
         console.error('Error fetching cart from server:', error);
@@ -29,7 +29,7 @@ export const fetchCartFromServer = async (userId) => {
 
 export const mergeCarts = async (userId, guestCart) => {
     try {
-        const response = await axios.post(`${import.meta.env.BACKEND_BASEURL}/cart/merge`, { userId, guestCart }, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/cart/merge`, { userId, guestCart }, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -45,7 +45,7 @@ export const mergeCarts = async (userId, guestCart) => {
 
 export const removeCartFromServer = async (userId) => {
     try {
-        const response = await axios.delete(`${import.meta.env.BACKEND_BASEURL}/cart/remove/${userId}`);
+        const response = await axios.delete(`${import.meta.env.VITE_BACKEND_BASEURL}/cart/remove/${userId}`);
         return response.data;
     } catch (error) {
         console.error('Error removing cart from server:', error);

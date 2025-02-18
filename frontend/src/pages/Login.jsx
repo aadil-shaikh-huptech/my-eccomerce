@@ -47,7 +47,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${import.meta.env.BACKEND_BASEURL}/auth/login`, credentials, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/auth/login`, credentials, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const saveOrders = async (userId, ordersData,totalPrice) => {
+export const saveOrders = async (userId, ordersData, totalPrice) => {
     try {
-        const response = await axios.post(`${import.meta.env.BACKEND_BASEURL}/orders/add-orders`, { userId, ordersData,totalPrice }, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/orders/add-orders`, { userId, ordersData, totalPrice }, {
             withCredentials: true,
         });
 
@@ -19,14 +19,14 @@ export const saveOrders = async (userId, ordersData,totalPrice) => {
 
 export const fetchOrders = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/orders/fetch-orders`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/orders/fetch-orders`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
             },
         });
 
-        if (response.status===200) {
+        if (response.status === 200) {
             return response.data
         }
 

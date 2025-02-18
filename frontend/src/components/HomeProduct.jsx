@@ -31,13 +31,13 @@ const HomeProduct = () => {
             const productDetails = await Promise.all(
                 savedProducts.map(async (item) => {
                     const productId = item.productId || item._id || item.id;
-                    const response = await axios.get(`${import.meta.env.BACKEND_BASEURL}/products/${productId}`);
+                    const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/products/${productId}`);
                     return { ...response.data, quantity: item.quantity };
                 })
             );
 
         } catch (error) {
-            console.error('Error fetching cart products:', error);   
+            console.error('Error fetching cart products:', error);
         }
     };
 
