@@ -15,6 +15,7 @@ const CheckoutPage = () => {
     const [totalPrice, setTotalPrice] = useState(0)
     const [loading, setLoading] = useState(true);
     const [paymentLoading, setPaymentLoading] = useState(false);
+    const [cardErrors, setCardErrors] = useState({});
     const navigate = useNavigate()
     const userID = localStorage.getItem("userID") || "guest"
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
@@ -59,8 +60,28 @@ const CheckoutPage = () => {
 
 
     const handlePayment = async () => {
-        setPaymentLoading(true)
         const isValid = await formik.validateForm();
+
+        const cardNumberElement = elements.getElement(CardNumberElement);
+        const cardExpiryElement = elements.getElement(CardExpiryElement);
+        const cardCvcElement = elements.getElement(CardCvcElement);
+
+        const cardErrors = {};
+        if (!cardNumberElement._complete) {
+            setPaymentLoading(false)
+            cardErrors.cardNumber = 'Card number is required';
+        }
+        if (!cardExpiryElement._complete) {
+            setPaymentLoading(false)
+            cardErrors.cardExpiry = 'Expiration date is required';
+        }
+        if (!cardCvcElement._complete) {
+            setPaymentLoading(false)
+            cardErrors.cardCvc = 'CVV is required';
+        }
+
+        setCardErrors(cardErrors)
+
         if (Object.keys(isValid).length !== 0) {
             formik.setTouched(isValid);
             return;
@@ -71,6 +92,7 @@ const CheckoutPage = () => {
         }
 
         try {
+            setPaymentLoading(true)
             const { data } = await axios.post(`${VITE_BACKEND_BASEURL}/payment/create-payment-intent`, {
                 amount: Math.round(parseFloat((totalPrice - totalPrice * 0.1) * 100)),
                 currency: 'usd',
@@ -83,6 +105,7 @@ const CheckoutPage = () => {
             });
 
             if (error) {
+                setPaymentLoading(false)
                 console.log('[error]', error);
             } else {
                 console.log('[PaymentIntent]', paymentIntent);
@@ -262,14 +285,19 @@ const CheckoutPage = () => {
                                         <div className="field">
                                             <label htmlFor="cardNumber">Card Number</label>
                                             <CardNumberElement id="cardNumber" options={cardStyle} className="input-element" />
+                                            {cardErrors.cardNumber && <div className="payment-error">{cardErrors.cardNumber}</div>}
                                         </div>
                                         <div className="field">
                                             <label htmlFor="cardExpiry">Expiration Date</label>
                                             <CardExpiryElement id="cardExpiry" options={cardStyle} className="input-element" />
+                                            {cardErrors.cardExpiry && <div className="payment-error">{cardErrors.cardExpiry}</div>}
+
                                         </div>
                                         <div className="field">
                                             <label htmlFor="cardCvc">CVV</label>
                                             <CardCvcElement id="cardCvc" options={cardStyle} className="input-element" />
+                                            {cardErrors.cardCvc && <div className="payment-error">{cardErrors.cardCvc}</div>}
+
                                         </div>
                                         <div className="total-amount">
                                             <h3>Total: ${(totalPrice - totalPrice * 0.1).toFixed(2)}</h3>

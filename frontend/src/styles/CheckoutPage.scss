@@ -424,6 +424,7 @@
         font-size: 12px;
     }
 
+
     .date-error {
         position: variables.$relative-position;
         bottom: -1px;
@@ -431,6 +432,13 @@
         font-size: 12px;
     }
 
+}
+
+.payment-error {
+    position: variables.$relative-position;
+    margin-top: 1vh;
+    color: red;
+    font-size: 1em;
 }
 
 input {
@@ -496,4 +504,3 @@ body::-webkit-scrollbar {
     font-size: 20px;
     font-weight: bold;
 }
-
