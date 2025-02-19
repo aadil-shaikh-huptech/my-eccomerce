@@ -73,9 +73,9 @@ $width: 100%;
 }
 
 @media (max-width: 320px) {
-    .cont {
-        font-size: 10px;
-        height: 34px;
+
+    .announcement {
+        display: none;
     }
 }
 
