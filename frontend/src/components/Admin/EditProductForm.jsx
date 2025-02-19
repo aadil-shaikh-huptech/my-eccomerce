@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../../styles/ProductForm.scss';
 
-const EditProductForm = ({ product, onUpdate }) => {
+const EditProductForm = ({ product, onUpdate,categories }) => {
   const [id, setId] = useState(product?._id || '');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -12,6 +12,8 @@ const EditProductForm = ({ product, onUpdate }) => {
   const [stock, setStock] = useState('');
   const [minimumOrderQuantity, setMinimumOrderQuantity] = useState('');
   const [category, setCategory] = useState('');
+  const [isEditingNewCategory, setIsEdtingNewCategory] = useState(false);
+  const [newCategory, setNewCategory] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const navigate = useNavigate()
 
@@ -30,6 +32,17 @@ const EditProductForm = ({ product, onUpdate }) => {
     }
   }, [product]);
 
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    if (selectedCategory === 'new') {
+      setIsEdtingNewCategory(true);
+      setCategory('');
+    } else {
+      setIsEdtingNewCategory(false);
+      setCategory(selectedCategory);
+    }
+  };
+
 
 
   const handleSubmit = (e) => {
@@ -43,7 +56,8 @@ const EditProductForm = ({ product, onUpdate }) => {
       rating: parseFloat(rating),
       stock: parseInt(stock, 10),
       minimumOrderQuantity: parseInt(minimumOrderQuantity, 10),
-      category,
+      category: isEditingNewCategory ? newCategory : category,
+
       thumbnail,
     };
     onUpdate(updatedProduct);
@@ -57,6 +71,8 @@ const EditProductForm = ({ product, onUpdate }) => {
     setMinimumOrderQuantity('');
     setCategory('');
     setThumbnail('');
+    setNewCategory('');
+    setIsEdtingNewCategory(false);
     navigate('/admin')
   };
   return (
@@ -127,16 +143,27 @@ const EditProductForm = ({ product, onUpdate }) => {
         <div className="form-group">
           <label>Category:</label>
           <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={isEditingNewCategory ? 'new' : category}
+            onChange={handleCategoryChange}
             required
           >
             <option value="" disabled>Select category</option>
-            <option value="beauty">Beauty</option>
-            <option value="fragrances">Fragrances</option>
-            <option value="furniture">Furniture</option>
-            <option value="groceries">Groceries</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+            <option value="new">Add New</option>
           </select>
+          {isEditingNewCategory && (
+            <div className="form-group">
+              <label>New Category:</label>
+              <input
+                type="text"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                required
+              />
+            </div>
+          )}
         </div>
         <div className="form-group">
           <label>Thumbnail URL:</label>

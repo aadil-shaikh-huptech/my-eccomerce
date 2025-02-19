@@ -45,7 +45,7 @@ const ManageProducts = () => {
     useEffect(() => {
         const overlay = document.getElementById('overlay');
 
-        if (showAddForm) {
+        if (showAddForm || showEditForm) {
             overlay.style.display = "block";
             document.body.style.overflow = 'hidden';
         } else {
@@ -56,7 +56,7 @@ const ManageProducts = () => {
         return () => {
             document.body.style.overflow = 'auto';
         };
-    }, [showAddForm]);
+    }, [showAddForm, showEditForm]);
 
     useEffect(() => {
         const fetchAdminData = async () => {
@@ -89,7 +89,7 @@ const ManageProducts = () => {
         };
 
         loadProducts();
-    }, [selectedCategory]);
+    }, [selectedCategory, showEditForm]);
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -102,7 +102,7 @@ const ManageProducts = () => {
         };
 
         loadCategories();
-    }, [showAddForm]);
+    }, [showAddForm, showEditForm]);
 
     const handleAddProduct = async (newProduct) => {
         try {
@@ -121,7 +121,11 @@ const ManageProducts = () => {
     const handleEditProduct = async (updatedProduct) => {
         try {
             const updatedProd = await updateProduct(updatedProduct._id, updatedProduct);
-            setProducts((products) => products.map((product) => (product._id === updatedProd._id ? updatedProd : product)));
+            setProducts((products) => {
+                const updatedProducts = products.map((product) => (product._id === updatedProd._id ? updatedProd : product));
+                console.log("Updated Products:", updatedProducts);
+                return updatedProducts;
+            });
             setEditingProduct(null);
             setShowEditForm(false);
         } catch (error) {
@@ -129,10 +133,21 @@ const ManageProducts = () => {
         }
     };
 
+
     const handleDeleteProduct = async (productId) => {
         try {
             await deleteProduct(productId);
-            setProducts(products.filter((product) => product._id !== productId));
+
+            const updatedProducts = products.filter((product) => product._id !== productId);
+            setProducts(updatedProducts);
+
+            const productCategory = products.find(product => product._id === productId).category;
+            const remainingProductsInCategory = updatedProducts.filter(product => product.category === productCategory);
+
+            if (remainingProductsInCategory.length === 0) {
+                setCategories(categories.filter(category => category !== productCategory));
+                setSelectedCategory("all")
+            }
         } catch (error) {
             console.error("Error deleting product: ", error);
         }
@@ -143,7 +158,7 @@ const ManageProducts = () => {
         setShowEditForm(true);
     };
 
-    const handleAdminLogout = async () => { 
+    const handleAdminLogout = async () => {
         setLoading(true)
         try {
             const response = await logout();
@@ -215,6 +230,7 @@ const ManageProducts = () => {
                                     <EditProductForm
                                         product={editingProduct}
                                         onUpdate={handleEditProduct}
+                                        categories={categories}
                                     />
                                 </div>
                             </div>
