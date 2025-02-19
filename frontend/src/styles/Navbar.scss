@@ -19,7 +19,7 @@
     position: relative;
     bottom: 3vh;
 
- 
+
 
     .navLogo {
         height: 84px;
@@ -85,6 +85,7 @@ ul {
         position: variables.$relative-position;
         text-decoration: none;
         color: inherit;
+        cursor: variables.$pointer;
     }
 }
 
