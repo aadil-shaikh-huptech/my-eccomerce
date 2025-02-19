@@ -27,6 +27,7 @@ const Register = () => {
                 const userId = response.newUser._id
                 console.log(userId)
                 localStorage.setItem("userID", userId)
+                localStorage.setItem("token", response.token)
                 // const role = response.role
 
                 await updateCartForUser(userId)

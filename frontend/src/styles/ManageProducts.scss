@@ -19,7 +19,6 @@ $white: #fff;
         max-height: 70vh;
         display: flex;
         overflow-y: auto;
-
     }
 
     .sidebar {
@@ -46,9 +45,10 @@ $white: #fff;
             }
 
         }
+
         @media (max-width: 768px) {
             max-height: 50vh;
-                overflow-y: auto;
+            overflow-y: auto;
         }
 
         .sidebar-category {
@@ -142,3 +142,21 @@ $white: #fff;
 .admin-container::-webkit-scrollbar {
     display: none;
 }
+
+
+.admin-loader {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: variables.$purple-color;
+    width: 3px;
+    aspect-ratio: 1;
+    height: 1vh;
+    border-radius: 50%;
+    box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
+    animation: l21 .5s infinite alternate linear;
+    top: 30vh;
+    left: 29vw;
+}
+

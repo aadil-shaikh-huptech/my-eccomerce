@@ -27,7 +27,7 @@ const ManageProducts = () => {
     useEffect(() => {
         const verifyAuth = async () => {
             try {
-                const response = await checkAuth();
+                const response = await checkAuth(localStorage.getItem("token"));
                 const role = response.role;
                 if (role === 'admin') {
                     navigate('/admin');
@@ -60,7 +60,7 @@ const ManageProducts = () => {
     useEffect(() => {
         const fetchAdminData = async () => {
             try {
-                const data = await fetchAdminDetails();
+                const data = await fetchAdminDetails(localStorage.getItem("userID"));
                 setAdminData(data);
             } catch (error) {
                 navigate('/login');
@@ -218,7 +218,7 @@ const ManageProducts = () => {
                     </div>
                 </div>
             ) : (
-                <p className="loading">LOADING...</p>
+                <div className="admin-loader"></div>
             )}
         </div>
     );

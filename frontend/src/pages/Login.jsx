@@ -21,7 +21,7 @@ const Login = () => {
     useEffect(() => {
         const verifyAuth = async () => {
             try {
-                await checkAuth();
+                await checkAuth(localStorage.getItem("token"));
                 const userDetails = await getUserById(localStorage.getItem("userID"))
                 setUserDetails(userDetails);
                 setHeading(userDetails.role)
@@ -68,6 +68,7 @@ const Login = () => {
                 const userId = response.data.user._id;
                 localStorage.setItem("userID", userId);
                 localStorage.setItem("userRole", response.data.role);
+                localStorage.setItem("token", response.data.token);
 
                 window.dispatchEvent(new Event("authChange"))
                 await updateCartForUser(userId);
@@ -139,6 +140,7 @@ const Login = () => {
             if (response.status === 200) {
                 localStorage.removeItem("userID")
                 localStorage.removeItem("userRole")
+                localStorage.removeItem("token")
                 window.dispatchEvent(new Event("authChange"))
                 navigate("/");
             }

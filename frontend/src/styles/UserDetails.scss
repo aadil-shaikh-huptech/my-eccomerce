@@ -1,3 +1,5 @@
+@use "./variables.scss";
+
 .user-table {
     width: 50vw;
     border-collapse: collapse;
@@ -42,6 +44,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1000;
 }
 
 .user-details-component .user-details-modal-content {
@@ -113,6 +116,45 @@
     background-color: #582656;
     transform: scale(0.95);
 }
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    z-index: 1000;
+}
+
+
+@keyframes l21 {
+    100% {
+        box-shadow: 19px 0 0 0, 38px 0 0 7px, 57px 0 0 3px;
+    }
+
+    0% {
+        box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
+    }
+}
+
+.content-loader {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: variables.$purple-color;
+    width: 25px;
+    aspect-ratio: 1;
+    height: 1vh;
+    border-radius: 50%;
+    box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
+    animation: l21 .5s infinite alternate linear;
+    margin: 33vh 0;
+    margin-left: 30vw;
+}
+
 
 @media (max-width: 780px) {
     .user-table {

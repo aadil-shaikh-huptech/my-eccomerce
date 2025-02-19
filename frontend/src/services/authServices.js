@@ -1,12 +1,13 @@
 import axios from "axios"
 const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
-export const checkAuth = async () => {
+export const checkAuth = async (token) => {
     try {
         const response = await axios.get(`${VITE_BACKEND_BASEURL}/auth/check-auth`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
             },
         })
         return response.data
@@ -17,12 +18,13 @@ export const checkAuth = async () => {
     }
 }
 
-export const fetchAdminDetails = async () => {
+export const fetchAdminDetails = async (userId) => {
     try {
-        const response = await axios.get(`${VITE_BACKEND_BASEURL}/admin/profile`, {
+        const response = await axios.get(`${VITE_BACKEND_BASEURL}/admin/profile/${userId}`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
         })
         return response.data
@@ -37,7 +39,7 @@ export const fetchAdminDetails = async () => {
 
 export const logout = async () => {
     try {
-        const response = await axios.post(`https://my-eccomerce-backend.vercel.app/api/auth/logout`, {}, {
+        const response = await axios.post(`${VITE_BACKEND_BASEURL}/auth/logout`, {}, {
             withCredentials: true,
         })
         return response

@@ -92,7 +92,7 @@ const HomeProduct = () => {
     };
 
     if (!product) {
-        return <div>Loading...</div>;
+        return <div className='loader'></div>;
     }
 
     return (

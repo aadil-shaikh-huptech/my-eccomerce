@@ -25,23 +25,17 @@ const stripePromise = loadStripe("pk_test_51QrtGbP5FrzJ8dpoM5BXMUm67Ok4uC7yeJqMS
 
 const App = () => {
 
-  const checkCookie = (cookieName) => {
-    const cookies = document.cookie.split(';').reduce((cookieObj, cookieStr) => {
-      const [key, value] = cookieStr.split('=').map(c => c.trim());
-      cookieObj[key] = value;
-      return cookieObj;
-    }, {});
-
-    return cookies[cookieName] !== undefined;
+  const checkTokenInLocalStorage = (tokenName) => {
+    return localStorage.getItem(tokenName) !== null;
   };
 
   useEffect(() => {
-    const cookieName = 'token';
-    const cookiePresent = checkCookie(cookieName);
-    // console.log('Token cookie present:', cookiePresent);
-    if (!cookiePresent) {
-      // console.log('Removing userID from localStorage');
-      localStorage.removeItem("userRole")
+    const tokenName = 'token';
+    const tokenPresent = checkTokenInLocalStorage(tokenName);
+    // console.log('Token present in local storage:', tokenPresent);
+    if (!tokenPresent) {
+      // console.log('Removing userRole and userID from localStorage');
+      localStorage.removeItem('userRole');
       localStorage.removeItem('userID');
     } else {
       console.log('UserID in localStorage:', localStorage.getItem('userID'));

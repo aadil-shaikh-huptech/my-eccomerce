@@ -10,7 +10,7 @@ const navigate = useNavigate()
   useEffect(() => {
           const fetchAdminData = async () => {
               try {
-                  const data = await fetchAdminDetails();
+                  const data = await fetchAdminDetails(localStorage.getItem("userID"));
                   setAdminData(data);
               } catch (error) {
                   navigate('/login');

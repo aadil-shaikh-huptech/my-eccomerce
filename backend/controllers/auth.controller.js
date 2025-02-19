@@ -11,7 +11,6 @@ const loginController = async (req, res) => {
         }
         const role = user.role;
         const token = jwt.sign({ userId: user._id, role: role }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        res.cookie('token', token, { sameSite: 'None', secure: true, httpOnly: true });
         res.status(200).json({ token, role, user });
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
@@ -37,7 +36,6 @@ const signUpController = async (req, res) => {
         await newUser.save();
 
         const token = jwt.sign({ userId: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        res.cookie('token', token, { sameSite: 'None', secure: true, httpOnly: true });
         res.status(200).json({ token, role: newUser.role, newUser });
 
     } catch (err) {
@@ -47,7 +45,7 @@ const signUpController = async (req, res) => {
 };
 
 const checkAuthController = (req, res) => {
-    const token = req.cookies.token;
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
     if (!token) {
         return res.status(403).json({ msg: "No token provided" });
     }
@@ -60,8 +58,8 @@ const checkAuthController = (req, res) => {
     });
 };
 
+
 const logoutController = (req, res) => {
-    res.clearCookie('token', { sameSite: 'None', secure: true, httpOnly: true });
     res.status(200).json({ message: "Logout successfully" });
 };
 
