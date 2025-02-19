@@ -5,21 +5,22 @@ import { fetchOneProduct } from '../services/productServices';
 import { updateCartOnServer } from '../services/cartServices';
 import '../styles/ProductPage.scss'
 const ProductPage = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-    const navigate = useNavigate()
     const { id } = useParams();
+    const [loading, setLoading] = useState(false);
     const [product, setProduct] = useState(null);
     const [count, setCount] = useState(1)
-
+    const navigate = useNavigate()
     const increment = () => setCount(count + 1);
     const decrement = () => count > 1 && setCount(count - 1);
-
     const [showPopup, setShowPopup] = useState(false);
+
     const handleTogglePopup = () => {
         setShowPopup(!showPopup);
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -43,8 +44,9 @@ const ProductPage = () => {
     };
 
 
-    const handleCartNavigation = async() => {
-        let userID = localStorage.getItem("userID")||"guest"
+    const handleCartNavigation = async () => {
+        setLoading(true)
+        let userID = localStorage.getItem("userID") || "guest"
         let currentCart = JSON.parse(localStorage.getItem(`cart_${userID}`)) || [];
 
         if (!Array.isArray(currentCart)) {
@@ -71,6 +73,7 @@ const ProductPage = () => {
         }
 
         navigate(`/cart/${product._id}`, { state: { count } });
+        setLoading(false)
     };
 
 
@@ -170,7 +173,9 @@ const ProductPage = () => {
                         <img src="//gratefulearthcoffee.com/cdn/shop/files/no_binders.png?v=1671096454" height='50vh' />
                     </div>
 
-                    <button className='addToCart' onClick={() => { handleCartNavigation() }}>Add to cart</button>
+                    <button className='addToCart' onClick={() => { handleCartNavigation() }}>
+                        {loading ? <span className="button-loader"></span> : 'Add to cart'}
+                    </button>
 
                     <div className="product-share">
                         <div className="share-links"><div className="share-label">Share this Product:</div>

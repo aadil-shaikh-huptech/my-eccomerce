@@ -12,6 +12,7 @@ const Login = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [userDetails, setUserDetails] = useState({});
     const [loading, setLoading] = useState(true);
+    const [logoutLoading, setLogoutLoading] = useState(false);
     const [heading, setHeading] = useState("")
     const navigate = useNavigate();
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
@@ -57,6 +58,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         try {
             const response = await axios.post(`${VITE_BACKEND_BASEURL}/auth/login`, credentials, {
                 headers: {
@@ -76,12 +78,15 @@ const Login = () => {
                 setTimeout(() => {
                     navigate(response.data.role === 'admin' ? '/admin' : '/');
                 }, 100);
+        
             } else {
                 console.error('Token not received');
+                setLoading(false)
             }
         } catch (error) {
             alert("Invalid Credentials!")
             console.error('Login failed', error);
+            setLoading(false)
         }
     };
 
@@ -135,6 +140,7 @@ const Login = () => {
     }, [modalIsOpen]);
 
     const handleUserLogout = async () => {
+        setLogoutLoading(true)
         try {
             const response = await logout();
             if (response.status === 200) {
@@ -146,6 +152,9 @@ const Login = () => {
             }
         } catch (error) {
             console.error("Error while logging out: ", error);
+        }
+        finally{
+            setLogoutLoading(false)
         }
 
     }
@@ -168,7 +177,9 @@ const Login = () => {
 
                             <button className='see-orders' onClick={() => { navigate('/viewOrders') }}>Orders</button>
                         }
-                        <button className='user-logout' onClick={() => { handleUserLogout() }}>Logout</button>
+                        <button className='user-logout' onClick={() => { handleUserLogout() }}>
+                            {logoutLoading ? <span className="button-loader"></span> : 'Logout'}
+                        </button>
                     </div>
                 </div>
             )}
@@ -192,7 +203,9 @@ const Login = () => {
                             <a onClick={() => navigate("/login")}>Recover Password</a>
                         </div>
                         <div className="login-buttons">
-                            <button className='login-signIn-button' type='submit'>SIGN IN</button>
+                                <button className='login-signIn-button' type='submit'>
+                                    SIGN IN
+                                </button>
                             <a onClick={() => navigate("/register")}>Create account</a>
                         </div>
                     </form>

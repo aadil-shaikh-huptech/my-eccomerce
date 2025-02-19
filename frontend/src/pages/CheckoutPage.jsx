@@ -14,6 +14,7 @@ const CheckoutPage = () => {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0)
     const [loading, setLoading] = useState(true);
+    const [paymentLoading, setPaymentLoading] = useState(false);
     const navigate = useNavigate()
     const userID = localStorage.getItem("userID") || "guest"
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
@@ -58,6 +59,7 @@ const CheckoutPage = () => {
 
 
     const handlePayment = async () => {
+        setPaymentLoading(true)
         const isValid = await formik.validateForm();
         if (Object.keys(isValid).length !== 0) {
             formik.setTouched(isValid);
@@ -96,6 +98,9 @@ const CheckoutPage = () => {
             }
         } catch (error) {
             console.error("Error processing payment:", error);
+        }
+        finally{
+            setPaymentLoading(false)
         }
     };
 
@@ -137,7 +142,7 @@ const CheckoutPage = () => {
             console.error('Error fetching cart products:', error);
         }
     };
-    
+
 
     useEffect(() => {
         const verifyAuth = async () => {
@@ -273,7 +278,7 @@ const CheckoutPage = () => {
                                             <h3>Total: ${(totalPrice - totalPrice * 0.1).toFixed(2)}</h3>
                                         </div>
                                         <button className='paynow-button' type="submit" disabled={!stripe}>
-                                            Pay ${(totalPrice - totalPrice * 0.1).toFixed(2)}
+                                            {paymentLoading ? <span className="button-loader"></span> : `Pay ${(totalPrice - totalPrice * 0.1).toFixed(2)}`}
                                         </button>
                                     </div>
                                 </div>

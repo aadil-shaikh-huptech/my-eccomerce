@@ -7,6 +7,7 @@ import '../styles/HomeProduct.scss'
 
 const HomeProduct = () => {
     const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(false);
     const userID = localStorage.getItem("userID") || "guest"
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
@@ -43,6 +44,7 @@ const HomeProduct = () => {
     };
 
     const handleCart = async () => {
+        setLoading(true)
         let userID = localStorage.getItem("userID") || "guest";
         let currentCart = JSON.parse(localStorage.getItem(`cart_${userID}`)) || [];
 
@@ -71,7 +73,7 @@ const HomeProduct = () => {
             }
         }
         navigate(`/cart/${id}`, { state: { quantity } });
-
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -140,7 +142,7 @@ const HomeProduct = () => {
 
                     <div className="home-product-btn">
                         <button className='home-product-button' onClick={() => handleCart()}>
-                            ADD TO CART
+                            {loading ? <span className="button-loader"></span> : 'ADD TO CART'}
                         </button>
                     </div>
                 </div>

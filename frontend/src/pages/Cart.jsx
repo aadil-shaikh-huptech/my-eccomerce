@@ -9,6 +9,7 @@ import '../styles/Cart.scss';
 const Cart = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [checkoutBtnLoading, setCheckoutBtnLoading] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const userID = localStorage.getItem("userID") || "guest"
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
@@ -91,12 +92,16 @@ const Cart = () => {
     };
 
     const handleCheckOut = async () => {
+        setCheckoutBtnLoading(true)
         try {
             await checkAuth(localStorage.getItem("token"))
             navigate(`/checkout`, { state: { cartItems } })
         }
         catch (error) {
             navigate('/login')
+            setCheckoutBtnLoading(false)
+        }finally{
+            setCheckoutBtnLoading(false)
         }
     }
 
@@ -154,7 +159,9 @@ const Cart = () => {
                     </div>
                     <div className="cart-summary">
                         <div className="buttons-container">
-                            <button className="checkout-button" onClick={() => handleCheckOut()}>SAFE CHECKOUT</button>
+                            <button className="checkout-button" onClick={() => handleCheckOut()}>
+                                    {checkoutBtnLoading ? <span className="button-loader"></span> : 'SAFE CHECKOUT'}
+                            </button>
                             <button className="continue-shopping-button" onClick={() => navigate(`/collections/all`)}>CONTINUE SHOPPING</button>
                         </div>
                     </div>
