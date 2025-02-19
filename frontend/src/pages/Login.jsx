@@ -154,6 +154,24 @@ const Login = () => {
 
     return (
         <div className='login-container'>
+            <div id="overlay"></div>
+            {modalIsOpen && (
+                <div className="modal-container">
+                    <div className="modal-content">
+                        <button className='close-button' onClick={() => handleModalClose()}>×</button>
+                        <img src={adminImg} alt="" className='user-img' />
+                        <h2>{heading === "admin" ? "Admin Details" : "User Details"}</h2>
+                        <p>First Name: {userDetails.firstName}</p>
+                        <p>Last Name: {userDetails.lastName}</p>
+                        <p>Email: {userDetails.email}</p>
+                        {localStorage.getItem("userRole") !== "admin" &&
+
+                            <button className='see-orders' onClick={() => { navigate('/viewOrders') }}>Orders</button>
+                        }
+                        <button className='user-logout' onClick={() => { handleUserLogout() }}>Logout</button>
+                    </div>
+                </div>
+            )}
             {loading ? (
                 <div className='login-loader'></div>
             ) : (
@@ -180,24 +198,7 @@ const Login = () => {
                     </form>
                 </div>
             )}
-            <div id="overlay"></div>
-            {modalIsOpen && (
-                <div className="modal-container">
-                    <div className="modal-content">
-                        <button className='close-button' onClick={() => handleModalClose()}>×</button>
-                        <img src={adminImg} alt="" className='user-img' />
-                        <h2>{heading === "admin" ? "Admin Details" : "User Details"}</h2>
-                        <p>First Name: {userDetails.firstName}</p>
-                        <p>Last Name: {userDetails.lastName}</p>
-                        <p>Email: {userDetails.email}</p>
-                        {localStorage.getItem("userRole") !== "admin" &&
-
-                            <button className='see-orders' onClick={() => { navigate('/viewOrders') }}>Orders</button>
-                        }
-                        <button className='user-logout' onClick={() => { handleUserLogout() }}>Logout</button>
-                    </div>
-                </div>
-            )}
+           
         </div>
     );
 };
