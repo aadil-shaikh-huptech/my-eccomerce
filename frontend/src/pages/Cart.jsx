@@ -100,8 +100,6 @@ const Cart = () => {
         catch (error) {
             navigate('/login')
             setCheckoutBtnLoading(false)
-        }finally{
-            setCheckoutBtnLoading(false)
         }
     }
 

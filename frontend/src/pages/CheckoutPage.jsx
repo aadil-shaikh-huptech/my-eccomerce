@@ -99,9 +99,6 @@ const CheckoutPage = () => {
         } catch (error) {
             console.error("Error processing payment:", error);
         }
-        finally{
-            setPaymentLoading(false)
-        }
     };
 
     const cardStyle = {

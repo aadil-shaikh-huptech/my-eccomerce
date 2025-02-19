@@ -19,6 +19,7 @@ const ManageProducts = () => {
     const [adminData, setAdminData] = useState(null);
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [currentSection, setCurrentSection] = useState("overview");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [categories, setCategories] = useState([])
@@ -143,6 +144,7 @@ const ManageProducts = () => {
     };
 
     const handleAdminLogout = async () => { 
+        setLoading(true)
         try {
             const response = await logout();
             if (response.status === 200) {
@@ -179,7 +181,9 @@ const ManageProducts = () => {
                 <button className='sidebar-buttons' onClick={() => setCurrentSection("users")}>Users</button>
                 <button className='sidebar-buttons' onClick={() => setCurrentSection("orders")}>Orders</button>
                 <button className='sidebar-buttons' onClick={() => setShowAddForm(true)}>Add Product</button>
-                <button className='sidebar-buttons' onClick={() => handleAdminLogout()}>Logout</button>
+                <button className='sidebar-buttons' onClick={() => handleAdminLogout()}>
+                    {loading ? <span className="button-loader"></span> : 'Logout'}
+                </button>
             </div>
             <div id='overlay'></div>
             {adminData ? (
