@@ -92,7 +92,7 @@ const Cart = () => {
 
     const handleCheckOut = async () => {
         try {
-            await checkAuth()
+            await checkAuth(localStorage.getItem("token"))
             navigate(`/checkout`, { state: { cartItems } })
         }
         catch (error) {

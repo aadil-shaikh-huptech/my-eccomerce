@@ -12,7 +12,7 @@ const OrderConfirm = () => {
     useEffect(() => {
             const verifyAuth = async () => {
                 try {
-                    const response = await checkAuth();
+                    const response = await checkAuth(localStorage.getItem("token"));
                     const role = response.role;
                     if (role === 'admin') {
                         navigate('/')

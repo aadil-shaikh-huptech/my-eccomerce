@@ -142,7 +142,7 @@ const CheckoutPage = () => {
     useEffect(() => {
         const verifyAuth = async () => {
             try {
-                await checkAuth()
+                await checkAuth(localStorage.getItem("token"))
             } catch (error) {
                 navigate("/login")
             }
