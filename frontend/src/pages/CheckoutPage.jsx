@@ -71,7 +71,7 @@ const CheckoutPage = () => {
         }
 
         try {
-            const { data } = await axios.post(`http://localhost:4000/api/payment/create-payment-intent`, {
+            const { data } = await axios.post(`${VITE_BACKEND_BASEURL}/payment/create-payment-intent`, {
                 amount: Math.round(parseFloat((totalPrice - totalPrice * 0.1) * 100)),
                 currency: 'usd',
             });
@@ -129,7 +129,7 @@ const CheckoutPage = () => {
             const productDetails = await Promise.all(
                 savedProducts.map(async (item) => {
                     const productId = item.productId || item._id || item.id;
-                    const response = await axios.get(`http://localhost:4000/api/products/${productId}`);
+                    const response = await axios.get(`${VITE_BACKEND_BASEURL}/products/${productId}`);
                     return { ...response.data, quantity: item.quantity };
                 })
             );

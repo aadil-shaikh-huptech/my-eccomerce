@@ -60,7 +60,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const response = await axios.post(`http://localhost:4000/api/auth/login`, credentials, {
+            const response = await axios.post(`${VITE_BACKEND_BASEURL}/auth/login`, credentials, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

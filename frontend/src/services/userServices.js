@@ -3,7 +3,7 @@ const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
 export const getUsers = async () => {
     try {
-        const response = await axios.get(`http://localhost:4000/api/users/getUsers/`)
+        const response = await axios.get(`${VITE_BACKEND_BASEURL}/users/getUsers/`)
         return response.data
     }
     catch (error) {
@@ -14,7 +14,7 @@ export const getUsers = async () => {
 
 export const getUserById = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:4000/api/users/getUserById/${userId}`)
+        const response = await axios.get(`${VITE_BACKEND_BASEURL}/users/getUserById/${userId}`)
         return response.data
     }
     catch (error) {
@@ -25,7 +25,7 @@ export const getUserById = async (userId) => {
 
 export const addUser = async (userData) => {
     try {
-        const response = await axios.post(`http://localhost:4000/api/users/addUsers`, userData);
+        const response = await axios.post(`${VITE_BACKEND_BASEURL}/users/addUsers`, userData);
         return response.data;
     } catch (error) {
         console.error('Error adding user:', error);
