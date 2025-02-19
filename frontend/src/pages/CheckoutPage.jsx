@@ -20,6 +20,7 @@ const CheckoutPage = () => {
     const userID = localStorage.getItem("userID") || "guest"
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
+
     const validationSchema = Yup.object({
         email: Yup.string().required("Email is required"),
         firstName: Yup.string().required("First name is required"),

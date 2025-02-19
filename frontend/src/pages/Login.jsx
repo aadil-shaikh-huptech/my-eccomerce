@@ -17,8 +17,6 @@ const Login = () => {
     const navigate = useNavigate();
     const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
-
-
     useEffect(() => {
         const verifyAuth = async () => {
             try {
