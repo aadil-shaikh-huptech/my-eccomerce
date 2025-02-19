@@ -25,7 +25,7 @@ const Cart = () => {
             const productDetails = await Promise.all(
                 savedProducts.map(async (item) => {
                     const productId = item.productId || item._id || item.id;
-                    const response = await axios.get(`${VITE_BACKEND_BASEURL}/products/${productId}`);
+                    const response = await axios.get(`http://localhost:4000/api/products/${productId}`);
                     return { ...response.data, quantity: item.quantity };
                 })
             );
@@ -158,7 +158,7 @@ const Cart = () => {
                     <div className="cart-summary">
                         <div className="buttons-container">
                             <button className="checkout-button" onClick={() => handleCheckOut()}>
-                                    {checkoutBtnLoading ? <span className="button-loader"></span> : 'SAFE CHECKOUT'}
+                                {checkoutBtnLoading ? <span className="button-loader"></span> : 'SAFE CHECKOUT'}
                             </button>
                             <button className="continue-shopping-button" onClick={() => navigate(`/collections/all`)}>CONTINUE SHOPPING</button>
                         </div>

@@ -4,7 +4,7 @@ const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
 export const fetchProductsData = async () => {
     try {
-        const response = await fetch(`${VITE_BACKEND_BASEURL}/products/`);
+        const response = await fetch(`http://localhost:4000/api/products/`);
         if (!response.ok) {
             throw new Error(`Failed to fetch products: ${response.statusText}`);
         }
@@ -18,7 +18,7 @@ export const fetchProductsData = async () => {
 
 export const fetchOneProduct = async (productId) => {
     try {
-        const response = await fetch(`${VITE_BACKEND_BASEURL}/products/${productId}`);
+        const response = await fetch(`http://localhost:4000/api/products/${productId}`);
         if (!response.ok) {
             throw new Error(`Failed to fetch product details: ${response.statusText}`);
         }
@@ -32,7 +32,7 @@ export const fetchOneProduct = async (productId) => {
 };
 export const addProduct = async (product) => {
     try {
-        const response = await fetch(`${VITE_BACKEND_BASEURL}/products/`, {
+        const response = await fetch(`http://localhost:4000/api/products/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export const addProduct = async (product) => {
 
 export const updateProduct = async (productId, updatedProduct) => {
     try {
-        const response = await fetch(`${VITE_BACKEND_BASEURL}/products/${productId}`, {
+        const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export const updateProduct = async (productId, updatedProduct) => {
 
 export const deleteProduct = async (productId) => {
     try {
-        const response = await fetch(`${VITE_BACKEND_BASEURL}/products/${productId}`, {
+        const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
             method: "DELETE"
         })
         if (!response.ok) {
@@ -88,7 +88,7 @@ export const deleteProduct = async (productId) => {
 
 export const fetchProductsByCategory = async (category) => {
     try {
-        const response = await axios.get(`${VITE_BACKEND_BASEURL}/products/category/${category}`)
+        const response = await axios.get(`http://localhost:4000/api/products/category/${category}`)
         return response.data
     }
     catch (error) {
@@ -99,7 +99,7 @@ export const fetchProductsByCategory = async (category) => {
 
 export const fetchProductCategories = async () => {
     try {
-        const response = await axios.get(`${VITE_BACKEND_BASEURL}/products/categories/all`)
+        const response = await axios.get(`http://localhost:4000/api/products/categories/all`)
         return response.data
     }
     catch (error) {

@@ -60,7 +60,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const response = await axios.post(`${VITE_BACKEND_BASEURL}/auth/login`, credentials, {
+            const response = await axios.post(`http://localhost:4000/api/auth/login`, credentials, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -78,7 +78,7 @@ const Login = () => {
                 setTimeout(() => {
                     navigate(response.data.role === 'admin' ? '/admin' : '/');
                 }, 100);
-        
+
             } else {
                 console.error('Token not received');
                 setLoading(false)
@@ -153,7 +153,7 @@ const Login = () => {
         } catch (error) {
             console.error("Error while logging out: ", error);
         }
-        finally{
+        finally {
             setLogoutLoading(false)
         }
 
@@ -203,15 +203,15 @@ const Login = () => {
                             <a onClick={() => navigate("/login")}>Recover Password</a>
                         </div>
                         <div className="login-buttons">
-                                <button className='login-signIn-button' type='submit'>
-                                    SIGN IN
-                                </button>
+                            <button className='login-signIn-button' type='submit'>
+                                SIGN IN
+                            </button>
                             <a onClick={() => navigate("/register")}>Create account</a>
                         </div>
                     </form>
                 </div>
             )}
-           
+
         </div>
     );
 };

@@ -3,7 +3,7 @@ const VITE_BACKEND_BASEURL = 'https://my-eccomerce-backend.vercel.app/api'
 
 export const saveOrders = async (userId, ordersData, totalPrice) => {
     try {
-        const response = await axios.post(`${VITE_BACKEND_BASEURL}/orders/add-orders`, { userId, ordersData, totalPrice }, {
+        const response = await axios.post(`http://localhost:4000/api/orders/add-orders`, { userId, ordersData, totalPrice }, {
             withCredentials: true,
         });
 
@@ -20,7 +20,7 @@ export const saveOrders = async (userId, ordersData, totalPrice) => {
 
 export const fetchOrders = async () => {
     try {
-        const response = await axios.get(`${VITE_BACKEND_BASEURL}/orders/fetch-orders`, {
+        const response = await axios.get(`http://localhost:4000/api/orders/fetch-orders`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
