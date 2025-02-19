@@ -137,7 +137,7 @@ const CheckoutPage = () => {
             console.error('Error fetching cart products:', error);
         }
     };
-
+    
 
     useEffect(() => {
         const verifyAuth = async () => {
