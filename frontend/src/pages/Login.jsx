@@ -23,9 +23,9 @@ const Login = () => {
             try {
                 await checkAuth(localStorage.getItem("token"));
                 const userDetails = await getUserById(localStorage.getItem("userID"))
+                setModalIsOpen(true);
                 setUserDetails(userDetails);
                 setHeading(userDetails.role)
-                setModalIsOpen(true);
 
             } catch (error) {
                 navigate('/login')
@@ -37,7 +37,7 @@ const Login = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 3000);
+        }, 2000);
         return () => clearTimeout(timer);
     }, [])
 
