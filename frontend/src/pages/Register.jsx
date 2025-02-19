@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userSignUp } from '../services/authServices';
+import { mergeCarts } from '../services/cartServices';
 import '../styles/Register.scss';
 
 const Register = () => {
@@ -27,9 +28,9 @@ const Register = () => {
                 const userId = response.newUser._id
                 console.log(userId)
                 localStorage.setItem("userID", userId)
+                localStorage.setItem("userRole", response.role);
                 localStorage.setItem("token", response.token)
                 // const role = response.role
-
                 await updateCartForUser(userId)
                 navigate('/');
             } else {
@@ -43,12 +44,33 @@ const Register = () => {
 
     const updateCartForUser = async (userId) => {
         const guestCart = JSON.parse(localStorage.getItem('cart_guest')) || [];
-        if (guestCart.length > 0) {
-            const userCart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
-            const updatedCart = [...userCart, ...guestCart];
+        console.log("GUEST: ", guestCart);
 
-            localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
-            localStorage.removeItem('cart_guest');
+        if (guestCart.length > 0) {
+            try {
+                const formattedGuestCart = guestCart.map(item => ({
+                    productId: item.productId,
+                    quantity: item.quantity
+                }));
+
+                await mergeCarts(userId, formattedGuestCart);
+
+                let currentCart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+
+                guestCart.forEach((guestItem) => {
+                    const userItemIndex = currentCart.findIndex((item) => item.productId === guestItem.productId);
+                    if (userItemIndex > -1) {
+                        currentCart[userItemIndex].quantity += guestItem.quantity;
+                    } else {
+                        currentCart.push(guestItem);
+                    }
+                });
+
+                localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
+                localStorage.removeItem('cart_guest');
+            } catch (error) {
+                console.error('Error merging guest cart with user cart:', error);
+            }
         }
     }
 
